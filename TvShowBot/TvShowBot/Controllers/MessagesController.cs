@@ -24,9 +24,17 @@ namespace TvShowBot
                 ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
                 // calculate something for us to return
                 int length = (activity.Text ?? string.Empty).Length;
+                int countWords = 1;
+                for (int index = 0; index < length; index++)
+                {
+                    if(activity.Text[index].Equals(' '))
+                    {
+                        countWords++;
+                    }
+                }
 
                 // return our reply to the user
-                Activity reply = activity.CreateReply($"You sent {activity.Text} which was {length} characters");
+                Activity reply = activity.CreateReply($"You sent {activity.Text} which has {countWords} word/s");
                 await connector.Conversations.ReplyToActivityAsync(reply);
             }
             else
